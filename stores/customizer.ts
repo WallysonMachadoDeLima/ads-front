@@ -10,7 +10,7 @@ export const useCustomizerStore = defineStore('customizer',{
     setHorizontalLayout: config.setHorizontalLayout, // Horizontal layout
     setRTLLayout:config.setRTLLayout, // RTL layout
     actTheme: config.actTheme,
-    boxed: config.boxed,
+    boxed: config.boxed, 
     setBorderCard: config.setBorderCard
   }),
 

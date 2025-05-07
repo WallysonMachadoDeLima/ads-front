@@ -2,7 +2,7 @@ import type { ThemeTypes } from '@/types/themeTypes/ThemeType';
 
 const DARK_BLUE_THEME: ThemeTypes = {
     name: 'DARK_BLUE_THEME',
-    dark: true,
+    dark: true, 
     variables: {
         'border-color': '#182D41', 
         'border-opacity': 1,
