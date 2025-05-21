@@ -38,7 +38,7 @@ onMounted(() => {
 });
 
 const novoServidor = () => {
-  router.push('/servidor/cadastrar');
+  router.push('/servidor/new-edit-servidor');
 };
 </script>
 
