@@ -90,24 +90,6 @@ function handleScroll() {
     </div>
 
     <!-- ---------------------------------------------- -->
-    <!-- translate -->
-    <!-- ---------------------------------------------- -->
-    <div class="hidden-sm-and-down me-sm-4 me-4">
-      <LcFullVerticalHeaderLanguageDD />
-    </div>
-
-    <!-- ---------------------------------------------- -->
-    <!-- ShoppingCart -->
-    <!-- ---------------------------------------------- -->
-    <div class="hidden-sm-and-down me-sm-6 me-4">
-      <v-btn icon variant="text" to="" size="small" class="custom-hover-primary">
-        <v-badge color="primary" content="0" offset-x="-4" offset-y="-6">
-          <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
-        </v-badge>
-      </v-btn>
-    </div>
-
-    <!-- ---------------------------------------------- -->
     <!-- Notification -->
     <!-- ---------------------------------------------- -->
     <div class="hidden-sm-and-down me-sm-6 me-4">

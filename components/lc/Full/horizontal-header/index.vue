@@ -43,75 +43,12 @@ watch(priority, (newPriority) => {
           : 'v-toolbar__content px-6'
       "
     >
-      <div class="hidden-md-and-down mt-2 pr-4">
-        <LcFullLogo />
-      </div>
-      <v-btn
-        class="hidden-lg-and-up bg-lightsecondary custom-hover-primary"
-        icon
-        variant="text"
-        @click.stop="customizer.SET_SIDEBAR_DRAWER"
-        size="small"
-      >
-        <Icon icon="solar:list-bold-duotone" height="24" width="24" />
-      </v-btn>
 
       <div class="hidden-md-and-up me-md-4 me-0">
         <LcFullVerticalHeaderSearchbar />
       </div>
 
-      <!---/Search part -->
-      <v-spacer class="hidden-sm-and-down" />
 
-      <div class="hidden-md-and-up w-40">
-        <LcFullLogo />
-      </div>
-
-      <!-- ------------------------------------------------>
-      <!-- Search part -->
-      <!-- ------------------------------------------------>
-
-      <div class="hidden-sm-and-down me-sm-4 me-4">
-        <LcFullVerticalHeaderSearchbar />
-      </div>
-
-      <div class="me-sm-4 me-0">
-        <LcFullVerticalHeaderThemeToggler />
-      </div>
-
-      <!-- ---------------------------------------------- -->
-      <!---right part -->
-      <!-- ---------------------------------------------- -->
-      <!-- ---------------------------------------------- -->
-      <!-- translate -->
-      <!-- ---------------------------------------------- -->
-      <div class="hidden-sm-and-down me-sm-4 me-4">
-        <LcFullVerticalHeaderLanguageDD />
-      </div>
-
-      <!-- ---------------------------------------------- -->
-      <!-- ShoppingCart -->
-      <!-- ---------------------------------------------- -->
-      <div class="hidden-sm-and-down me-sm-4 me-4">
-        <v-btn icon variant="text" class="mr-sm-3 mr-2 custom-hover-primary" to="" size="small">
-          <v-badge color="primary" content="0" offset-x="-4" offset-y="-6">
-            <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
-          </v-badge>
-        </v-btn>
-      </div>
-
-      <!-- ---------------------------------------------- -->
-      <!-- Notification -->
-      <!-- ---------------------------------------------- -->
-      <div class="hidden-sm-and-down me-sm-6 me-4">
-        <LcFullVerticalHeaderNotificationDD />
-      </div>
-      <!-- ---------------------------------------------- -->
-      <!-- User Profile -->
-      <!-- ---------------------------------------------- -->
-      <div class="hidden-sm-and-down">
-        <LcFullVerticalHeaderProfileDD />
-      </div>
 
       <!-----Mobile header------>
       <v-menu :close-on-content-click="false" class="mobile_popup">

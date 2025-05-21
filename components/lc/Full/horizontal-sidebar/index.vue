@@ -17,9 +17,7 @@ const { mdAndUp } = useDisplay();
                     <!---Menu Loop -->
                     <li v-for="(item, i) in sidebarMenu" :key="i" class="navItem">
                         <!---If Has Child -->
-                        <LcFullHorizontalSidebarNavCollapse :item="item" :level="0" v-if="item.children" />
                         <!---Single Item-->
-                        <LcFullHorizontalSidebarNavItem :item="item" v-else />
                         <!---End Single Item-->
                     </li>
                 </ul>
