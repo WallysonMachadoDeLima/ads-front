@@ -25,7 +25,7 @@ const headers = [
 const carregarServidores = async () => {
   try {
     loading.value = true;
-    servidores.value = await ServidorService.listar();
+    servidores.value = await ServidorService.index();
   } catch (error) {
     console.error('Erro ao carregar servidores:', error);
   } finally {

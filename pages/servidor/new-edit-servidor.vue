@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
+import { ServidorService } from '~/services/servidores';
 
 const router = useRouter();
 
@@ -31,8 +31,8 @@ const handleSubmit = async () => {
     tipo: tipo.value,
   };
 
-  try {
-    await axios.post('http://api-ads.ahfwml.live/Servidor', payload);
+ try {
+    await ServidorService.creat(payload);
     alert('Servidor cadastrado com sucesso!');
     router.push('/servidor');
   } catch (error) {
@@ -40,6 +40,7 @@ const handleSubmit = async () => {
     console.error(error);
   }
 };
+
 </script>
 
 <template>

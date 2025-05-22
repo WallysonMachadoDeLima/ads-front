@@ -5,12 +5,12 @@ const api = axios.create({
 });
 
 export const ServidorService = {
-  async listar() {
+  async index() {
     const response = await api.get('/servidor');
     return response.data;
   },
 
-  async cadastrar(payload: any) {
+  async creat(payload: any) {
     return api.post('/servidor', payload);
   },
 };
