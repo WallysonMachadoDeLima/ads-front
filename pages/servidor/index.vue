@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import { ServidorService } from '@/services/servidores';
+import PageHeader from '~/components/shared/PageHeader.vue';
 
 const router = useRouter();
 const servidores = ref<any[]>([]);
@@ -37,25 +38,20 @@ onMounted(() => {
   carregarServidores();
 });
 
-const novoServidor = () => {
-  router.push('/servidor/new-edit-servidor');
-};
+
 </script>
 
 <template>
   <v-row>
     <v-col cols="12">
-      <v-card>
-        <v-card-item class="py-2 px-4">
-          <BaseBreadcrumb :title="'Servidores'" :breadcrumbs="breadcrumbs" />
-        </v-card-item>
-      </v-card>
+      <PageHeader
+        title="Servidores"
+        :breadcrumbs="breadcrumbs"
+        button-label="Novo Servidor"
+        button-to="/servidor/new-edit-servidor"
+      />
 
-      <UiParentCard title="listagem" class="mt-4">
-        <div class="d-flex justify-end mb-4">
-          <v-btn color="primary" @click="novoServidor">+ Novo Servidor</v-btn>
-        </div>
-
+      <UiParentCard title="Lista de servidores">
         <v-data-table
           :headers="headers"
           :items="servidores"
