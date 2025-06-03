@@ -13,4 +13,8 @@ export const ServidorService = {
   async creat(payload: any) {
     return api.post('/servidor', payload);
   },
+  
+  async delete(id: number) {
+    return api.delete(`/servidor/${id}`);
+  },
 };

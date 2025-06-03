@@ -1,27 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import { ServidorService } from '@/services/servidores';
+import { ServidorService } from '~/services/servidor/servidor-service';
 import PageHeader from '~/components/shared/PageHeader.vue';
+import { PATHS } from '@/routes/paths';
+import { SERVIDOR_BREADCRUMBS_LIST, SERVIDOR_TABLE_HEADERS } from './enums/servidor-enums';
 
 const router = useRouter();
 const servidores = ref<any[]>([]);
 const loading = ref(true);
 
-const breadcrumbs = [
-  { title: 'Dashboard', disabled: false, href: '/' },
-  { title: 'Servidores', disabled: true },
-];
-
-
-const headers = [
-  { title: 'Nome', key: 'nome' },
-  { title: 'CPF', key: 'cpf' },
-  { title: 'Email', key: 'email' },
-  { title: 'Tipo', key: 'tipo' },
-];
+const breadcrumbs = SERVIDOR_BREADCRUMBS_LIST;
+const headers = SERVIDOR_TABLE_HEADERS;
 
 const carregarServidores = async () => {
   try {
@@ -33,6 +24,20 @@ const carregarServidores = async () => {
     loading.value = false;
   }
 };
+
+const handleDelete = async (id: number) => {
+  if (!confirm('Deseja realmente excluir este servidor?')) return;
+
+  try {
+    await ServidorService.delete(id);
+    alert('Servidor excluído com sucesso!');
+    carregarServidores(); // recarrega a tabela
+  } catch (error) {
+    alert('Erro ao excluir servidor.');
+    console.error(error);
+  }
+};
+
 
 onMounted(() => {
   carregarServidores();
@@ -48,7 +53,7 @@ onMounted(() => {
         title="Servidores"
         :breadcrumbs="breadcrumbs"
         button-label="Novo Servidor"
-        button-to="/servidor/new-edit-servidor"
+        :button-to="PATHS.servidor.new"
       />
 
       <UiParentCard title="Lista de servidores">

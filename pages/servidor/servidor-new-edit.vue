@@ -1,49 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useForm, useField } from 'vee-validate';
-import * as yup from 'yup';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
-import { ServidorService } from '~/services/servidores';
+import { useServidorForm } from './resolvers/servidor-resolver';
+import { ServidorService } from '~/services/servidor/servidor-service';
 import PageHeader from '~/components/shared/PageHeader.vue';
+import { PATHS } from '@/routes/paths';
+import { SERVIDOR_BREADCRUMBS_NEW_EDIT } from './enums/servidor-enums';
 
 const router = useRouter();
 const tipos = ['Administrador', 'Técnico', 'Professor'];
 
-const schema = yup.object({
-  nome: yup.string().required('Nome é obrigatório'),
-  cpf: yup.string().length(11, 'CPF inválido').required('CPF é obrigatório'),
-  email: yup.string().email('Email inválido').required('Email é obrigatório'),
-  senha: yup.string().min(6, 'Mínimo 6 caracteres').required('Senha é obrigatória'),
-  tipo: yup.string().required('Tipo é obrigatório'),
-});
+const breadcrumbs = SERVIDOR_BREADCRUMBS_NEW_EDIT;
 
-const { handleSubmit } = useForm({ validationSchema: schema });
-
-const { value: nome, errorMessage: nomeErro } = useField<string>('nome');
-const { value: cpf, errorMessage: cpfErro } = useField<string>('cpf');
-const { value: email, errorMessage: emailErro } = useField<string>('email');
-const { value: senha, errorMessage: senhaErro } = useField<string>('senha');
-const { value: tipo, errorMessage: tipoErro } = useField<string>('tipo');
+const {
+  handleSubmit,
+  nome, nomeErro,
+  cpf, cpfErro,
+  email, emailErro,
+  senha, senhaErro,
+  tipo, tipoErro,
+} = useServidorForm();
 
 const onSubmit = handleSubmit(async (values) => {
   const payload = { idServidor: 0, ...values };
   try {
     await ServidorService.creat(payload);
     alert('Servidor cadastrado com sucesso!');
-    router.push('/servidor');
+    router.push(PATHS.servidor.root);
   } catch (error) {
     alert('Erro ao cadastrar servidor.');
     console.error(error);
   }
 });
 
-const breadcrumbs = [
-  { title: 'Dashboard', disabled: false, href: '/' },
-  { title: 'Servidores', disabled: false, href: '/servidor' },
-  { title: 'Cadastrar', disabled: true },
-];
 </script>
 
 <template>
@@ -53,7 +42,7 @@ const breadcrumbs = [
         title="Servidores"
         :breadcrumbs="breadcrumbs"
         button-label="Lista de Servidor"
-        button-to="/servidor"
+        :button-to="PATHS.servidor.root"
       />
 
       <UiParentCard title="Cadastro de Servidor">
