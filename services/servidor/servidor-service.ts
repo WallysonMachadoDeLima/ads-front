@@ -13,6 +13,15 @@ export const ServidorService = {
   async creat(payload: any) {
     return api.post('/servidor', payload);
   },
+
+  async show(id: number) {
+    const response = await api.get(`/servidor/${id}`);
+    return response.data;
+  },
+
+  async update(id: number, payload: any) {
+    return api.put(`/servidor/${id}`, payload);
+  },
   
   async delete(id: number) {
     return api.delete(`/servidor/${id}`);
