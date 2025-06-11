@@ -1,3 +1,4 @@
+import { paths } from "~/routes/paths";
 
 export interface menu {
   header?: string;
@@ -30,9 +31,14 @@ const sidebarItem: menu[] = [
     title: 'Servidor',
     icon: 'square-academic-cap-line-duotone',
     BgColor: 'success',
-    to: "/servidor",
+    to: paths.servidor.list,
   },
-
+  {
+    title: 'Corpo Docente',
+    icon: 'square-academic-cap-line-duotone',
+    BgColor: 'success',
+    to: paths.corpoDocente.list,
+  },
 ];
 
 export default sidebarItem;

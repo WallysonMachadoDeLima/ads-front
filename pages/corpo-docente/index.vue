@@ -5,7 +5,7 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { ServidorService } from '~/services/servidor-service';
 import PageHeader from '~/components/shared/PageHeader.vue';
 import { paths } from '@/routes/paths';
-import { SERVIDOR_BREADCRUMBS_LIST, SERVIDOR_TABLE_HEADERS } from './enums/servidor-enums';
+import { SERVIDOR_BREADCRUMBS_LIST, SERVIDOR_TABLE_HEADERS } from './enums/corpo-doscente-enums';
 import TableActions from '@/components/shared/TableActions.vue';
 
 const router = useRouter();

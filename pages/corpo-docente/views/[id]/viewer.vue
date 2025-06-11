@@ -14,7 +14,7 @@ const loading = ref(true);
 
 const breadcrumbs = [
   { title: 'Dashboard', disabled: false, href: paths.dashboard },
-  { title: 'Servidores', disabled: false, href: paths.servidor.list },
+  { title: 'Corpo Docente', disabled: false, href: paths.corpoDocente.list },
   { title: 'Visualizar', disabled: true },
 ];
 
@@ -23,7 +23,7 @@ onMounted(async () => {
     loading.value = true;
     servidor.value = await ServidorService.show(id);
   } catch (error) {
-    console.error('Erro ao carregar servidor:', error);
+    console.error('Erro ao carregar corpo docente:', error);
   } finally {
     loading.value = false;
   }
@@ -34,13 +34,13 @@ onMounted(async () => {
   <v-row>
     <v-col cols="12">
       <PageHeader
-        title="Visualização do Servidor"
+        title="Visualização do Corpo Docente"
         :breadcrumbs="breadcrumbs"
         button-label="Voltar"
-        :button-to="paths.servidor.list"
+        :button-to="paths.corpoDocente.list"
       />
 
-      <UiParentCard title="Detalhes do Servidor">
+      <UiParentCard title="Detalhes do Corpo Docente">
         <v-skeleton-loader v-if="loading" type="paragraph, table" />
 
         <v-row v-else dense>

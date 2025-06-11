@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { useServidorForm } from './resolvers/servidor-resolver';
+import { useServidorForm } from './resolvers/corpo-docente-resolver';
 import { ServidorService } from '~/services/servidor-service';
 import PageHeader from '~/components/shared/PageHeader.vue';
 import { paths } from '@/routes/paths';
-import { SERVIDOR_BREADCRUMBS_NEW_EDIT } from './enums/servidor-enums';
+import { SERVIDOR_BREADCRUMBS_NEW_EDIT } from './enums/corpo-doscente-enums';
 
 const router = useRouter();
 const tipos = ['Administrador', 'Técnico', 'Professor'];

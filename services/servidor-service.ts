@@ -10,7 +10,7 @@ export const ServidorService = {
     return response.data;
   },
 
-  async creat(payload: any) {
+  async create(payload: any) {
     return api.post('/servidor', payload);
   },
 

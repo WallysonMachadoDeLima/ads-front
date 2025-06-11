@@ -1,13 +1,13 @@
-import { PATHS } from '@/routes/paths';
+import { paths } from '@/routes/paths';
 
 export const SERVIDOR_BREADCRUMBS_LIST = [
-  { title: 'Dashboard', disabled: false, href: PATHS.dashboard },
+  { title: 'Dashboard', disabled: false, href: paths.dashboard },
   { title: 'Servidores', disabled: true },
 ];
 
 export const SERVIDOR_BREADCRUMBS_NEW_EDIT = [
-  { title: 'Dashboard', disabled: false, href: PATHS.dashboard },
-  { title: 'Servidores', disabled: false, href: PATHS.servidor.root },
+  { title: 'Dashboard', disabled: false, href: paths.dashboard },
+  { title: 'Servidores', disabled: false, href: paths.servidor.list },
   { title: 'Cadastrar', disabled: true },
 ];
 
