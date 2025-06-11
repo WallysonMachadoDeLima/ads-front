@@ -1,6 +1,28 @@
-export interface CorpoDocenteNewEditDto {}
+export interface ICorpoDocenteNewEditDto {
+    servidorId: number;
+    disciplina: number;
+}
 
-export interface CorpoDoscenteFindAllDto {}
+export interface ICorpoDocenteFindAllDto {
+    id: number;
+    servidor:
+    {
+        idServidor: number;
+        nome: string;
+    }
 
-export interface CorpoDocenteFindOneByIdDto {
+    disciplina: number;
+}
+
+export interface ICorpoDocenteFindOneByIdDto {
+    id: number;
+    servidor: {
+        idServidor: number;
+        nome: string;
+        cpf: string;
+        email: string;
+        senha: string;
+        tipo: string;
+    };
+    disciplina?: number;
 }

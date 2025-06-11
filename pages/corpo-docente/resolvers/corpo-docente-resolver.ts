@@ -1,20 +1,20 @@
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 
-export const servidorSchema = yup.object({
-  servidor: yup.string().required('Nome é obrigatório'),
+export const validationSchema = yup.object({
+  servidorId: yup.string().required('Servidor é obrigatório'),
   disciplina: yup.string().required('Disciplina é obrigatória'),
 });
 
-export const useServidorForm = () => {
-  const { handleSubmit } = useForm({ validationSchema: servidorSchema });
+export const useCorpoDocenteForm = () => {
+  const { handleSubmit } = useForm({ validationSchema });
 
-  const { value: servidor, errorMessage: servidorErro } = useField<string>('servidor');
+  const { value: servidorId, errorMessage: servidorIdErro } = useField<string>('servidor');
   const { value: disciplina, errorMessage: disciplinaErro } = useField<string>('disciplina');
 
   return {
     handleSubmit,
-    servidor, servidorErro,
+    servidorId, servidorIdErro,
     disciplina, disciplinaErro,
   };
 };

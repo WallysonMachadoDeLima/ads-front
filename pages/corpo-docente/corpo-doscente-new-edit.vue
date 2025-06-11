@@ -1,34 +1,29 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { useServidorForm } from './resolvers/corpo-docente-resolver';
-import { ServidorService } from '~/services/servidor-service';
-import PageHeader from '~/components/shared/PageHeader.vue';
 import { paths } from '@/routes/paths';
-import { SERVIDOR_BREADCRUMBS_NEW_EDIT } from './enums/corpo-doscente-enums';
+import { useRouter } from 'vue-router';
+import PageHeader from '~/components/shared/PageHeader.vue';
+import { CorpoDocenteService } from '~/services/';
+import { CORPO_DOCENTE_BREADCRUMBS_LIST } from './enums/corpo-docente-enums';
+import { useCorpoDocenteForm } from './resolvers/corpo-docente-resolver';
 
 const router = useRouter();
-const tipos = ['Administrador', 'Técnico', 'Professor'];
 
-const breadcrumbs = SERVIDOR_BREADCRUMBS_NEW_EDIT;
+const breadcrumbs = CORPO_DOCENTE_BREADCRUMBS_LIST;
 
 const {
   handleSubmit,
-  nome, nomeErro,
-  cpf, cpfErro,
-  email, emailErro,
-  senha, senhaErro,
-  tipo, tipoErro,
-} = useServidorForm();
+  servidorId, servidorIdErro,
+  disciplina, disciplinaErro
+} = useCorpoDocenteForm();
 
 const onSubmit = handleSubmit(async (values) => {
-  const payload = { idServidor: 0, ...values };
   try {
-    await ServidorService.create(payload);
-    alert('Servidor cadastrado com sucesso!');
-    router.push(paths.servidor.list);
+    await CorpoDocenteService.create(values);
+    alert('Corpo docente cadastrado com sucesso!');
+    router.push(paths.corpoDocente.list);
   } catch (error) {
-    alert('Erro ao cadastrar servidor.');
+    alert('Erro ao cadastrar corpo docente.');
     console.error(error);
   }
 });
@@ -39,29 +34,20 @@ const onSubmit = handleSubmit(async (values) => {
   <v-row>
     <v-col cols="12">
       <PageHeader
-        title="Servidores"
+        title="Cadastrar  Corpo Docente"
         :breadcrumbs="breadcrumbs"
-        button-label="Lista de Servidor"
-        :button-to="paths.servidor.list"
+        button-label="Lista de Corpo Docente"
+        :button-to="paths.corpoDocente.list"
       />
 
-      <UiParentCard title="Cadastro de Servidor">
+      <UiParentCard title="Cadastro de Corpo Docente">
         <v-form @submit.prevent="onSubmit">
           <v-row dense>
             <v-col cols="12">
-              <v-text-field v-model="nome" :error-messages="nomeErro" label="Nome" outlined />
+              <v-text-field v-model="servidorId" :error-messages="servidorIdErro" label="Servidor" outlined />
             </v-col>
             <v-col cols="12" md="6">
-              <v-text-field v-model="cpf" :error-messages="cpfErro" label="CPF" outlined />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field v-model="email" :error-messages="emailErro" label="Email" outlined type="email" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field v-model="senha" :error-messages="senhaErro" label="Senha" outlined type="password" />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select v-model="tipo" :items="tipos" :error-messages="tipoErro" label="Tipo" outlined />
+              <v-text-field v-model="disciplina" :error-messages="disciplinaErro" label="Disciplina" outlined />
             </v-col>
             <v-col cols="12" class="text-right">
               <v-btn type="submit" color="primary" class="mt-4">Cadastrar Servidor</v-btn>

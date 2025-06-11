@@ -17,3 +17,5 @@ export const CORPO_DOCENTE_TABLE_HEADERS = [
   { title: 'Disciplina', key: 'disciplina' },
   { title: 'Ações', key: 'actions', sortable: false },
 ];
+
+

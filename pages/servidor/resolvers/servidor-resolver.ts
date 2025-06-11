@@ -1,7 +1,7 @@
-import { useForm, useField } from 'vee-validate';
+import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 
-export const servidorSchema = yup.object({
+export const validationSchema = yup.object({
   nome: yup.string().required('Nome é obrigatório'),
   cpf: yup.string().length(11, 'CPF inválido').required('CPF é obrigatório'),
   email: yup.string().email('Email inválido').required('Email é obrigatório'),
@@ -10,7 +10,7 @@ export const servidorSchema = yup.object({
 });
 
 export const useServidorForm = () => {
-  const { handleSubmit } = useForm({ validationSchema: servidorSchema });
+  const { handleSubmit } = useForm({ validationSchema });
 
   const { value: nome, errorMessage: nomeErro } = useField<string>('nome');
   const { value: cpf, errorMessage: cpfErro } = useField<string>('cpf');

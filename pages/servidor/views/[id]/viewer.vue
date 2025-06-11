@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import PageHeader from '@/components/shared/PageHeader.vue';
+import UiParentCard from '@/components/shared/UiParentCard.vue';
+import { paths } from '@/routes/paths';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { ServidorService } from '~/services/servidor-service';
-import UiParentCard from '@/components/shared/UiParentCard.vue';
-import PageHeader from '@/components/shared/PageHeader.vue';
-import { paths } from '@/routes/paths';
 
 const route = useRoute();
 const id = Number(route.params.id);
@@ -21,7 +21,7 @@ const breadcrumbs = [
 onMounted(async () => {
   try {
     loading.value = true;
-    servidor.value = await ServidorService.show(id);
+    servidor.value = await ServidorService.findOneById(id);
   } catch (error) {
     console.error('Erro ao carregar servidor:', error);
   } finally {

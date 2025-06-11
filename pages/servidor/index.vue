@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
-import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { ServidorService } from '~/services/servidor-service';
-import PageHeader from '~/components/shared/PageHeader.vue';
-import { paths } from '@/routes/paths';
-import { SERVIDOR_BREADCRUMBS_LIST, SERVIDOR_TABLE_HEADERS } from './enums/servidor-enums';
 import TableActions from '@/components/shared/TableActions.vue';
+import UiParentCard from '@/components/shared/UiParentCard.vue';
+import { paths } from '@/routes/paths';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import PageHeader from '~/components/shared/PageHeader.vue';
+import { ServidorService } from '~/services/servidor-service';
+import { SERVIDOR_BREADCRUMBS_LIST, SERVIDOR_TABLE_HEADERS } from './enums/servidor-enums';
 
 const router = useRouter();
 const servidores = ref<any[]>([]);
@@ -18,7 +18,7 @@ const headers = SERVIDOR_TABLE_HEADERS;
 const carregarServidores = async () => {
   try {
     loading.value = true;
-    servidores.value = await ServidorService.index();
+    servidores.value = await ServidorService.findAll();
   } catch (error) {
     console.error('Erro ao carregar servidores:', error);
   } finally {
@@ -66,7 +66,7 @@ onMounted(() => {
         :button-to="paths.servidor.new"
       />
 
-      <UiParentCard title="Lista de servidores">
+      <UiParentCard title="Listagem de servidores">
         <v-data-table
           :headers="headers"
           :items="servidores"

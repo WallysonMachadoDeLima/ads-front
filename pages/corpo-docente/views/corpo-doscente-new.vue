@@ -1,8 +1,8 @@
 
 <script setup lang="ts">
-import ServidorNewEdit from '../servidor-new-edit.vue';
+import CorpoDocenteNewEdit from '../corpo-docente-new-edit.vue';
 </script>
 
 <template>
-  <ServidorNewEdit />
+  <CorpoDocenteNewEdit />
 </template>
