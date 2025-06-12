@@ -43,13 +43,6 @@ watch(priority, (newPriority) => {
           : 'v-toolbar__content px-6'
       "
     >
-
-      <div class="hidden-md-and-up me-md-4 me-0">
-        <LcFullVerticalHeaderSearchbar />
-      </div>
-
-
-
       <!-----Mobile header------>
       <v-menu :close-on-content-click="false" class="mobile_popup">
         <template v-slot:activator="{ props }">
@@ -69,13 +62,11 @@ watch(priority, (newPriority) => {
           class="mt-5 dropdown-box px-4 py-6"
         >
           <div class="d-flex justify-space-between align-center">
-            <LcFullVerticalHeaderLanguageDD />
             <v-btn icon variant="text" class="mr-sm-3 mr-2 custom-hover-primary" to="" size="small">
               <v-badge color="primary" content="0" offset-x="-4" offset-y="-6">
                 <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
               </v-badge>
             </v-btn>
-            <LcFullVerticalHeaderNotificationDD />
             <LcFullVerticalHeaderProfileDD />
           </div>
         </v-sheet>

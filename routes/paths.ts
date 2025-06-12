@@ -1,6 +1,6 @@
 export const paths = {
   dashboard: '/',
-  servidor:{
+  servidor: {
     list: '/servidor',
     new: '/servidor/views/servidor-new',
     edit: (id: string | number) => `/servidor/views/${id}/edit`,
@@ -8,8 +8,14 @@ export const paths = {
   },
   corpoDocente: {
     list: '/corpo-docente',
-   new: '/corpo-docente/views/corpo-docente-new',
+    new: '/corpo-docente/views/corpo-docente-new',
     edit: (id: string | number) => `/corpo-docente/views/${id}/edit`,
     view: (id: string | number) => `/corpo-docente/views/${id}/viewer`,
+  },
+  aluno: {
+    list: '/aluno',
+    new: '/aluno/views/aluno-new',
+    edit: (id: string | number) => `/aluno/views/${id}/edit`,
+    view: (id: string | number) => `/aluno/views/${id}/viewer`,
   }
 };

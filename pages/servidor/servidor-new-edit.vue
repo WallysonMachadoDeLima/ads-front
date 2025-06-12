@@ -39,13 +39,13 @@ const onSubmit = handleSubmit(async (values) => {
   <v-row>
     <v-col cols="12">
       <PageHeader
-        title="Servidores"
+        title="Cadastrar Servidor"
         :breadcrumbs="breadcrumbs"
-        button-label="Lista de Servidor"
+        button-label="Listar Servidores"
         :button-to="paths.servidor.list"
       />
 
-      <UiParentCard title="Cadastro de Servidor">
+      <UiParentCard>
         <v-form @submit.prevent="onSubmit">
           <v-row dense>
             <v-col cols="12">

@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: 'http://api-ads.ahfwml.live',
+    baseURL: 'http://localhost:5000'/*'http://api-ads.ahfwml.live'*/,
 });

@@ -35,9 +35,9 @@ onMounted(async () => {
   <v-row>
     <v-col cols="12">
       <PageHeader
-        title="Visualização do Corpo Docente"
+        title="Visualizar Corpo Docente"
         :breadcrumbs="breadcrumbs"
-        button-label="Voltar"
+        button-label="Listar Corpo Docente"
         :button-to="paths.corpoDocente.list"
       />
 

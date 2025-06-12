@@ -13,7 +13,7 @@ export const CORPO_DOCENTE_BREADCRUMBS_NEW_EDIT = [
 
 export const CORPO_DOCENTE_TABLE_HEADERS = [
   { title: 'ID', key: 'id' },
-  { title: 'Docente', key: 'docente' },
+  { title: 'Docente', key: 'servidor.nome' },
   { title: 'Disciplina', key: 'disciplina' },
   { title: 'Ações', key: 'actions', sortable: false },
 ];

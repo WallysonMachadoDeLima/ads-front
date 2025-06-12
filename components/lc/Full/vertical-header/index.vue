@@ -70,9 +70,6 @@ function handleScroll() {
     <!-- ---------------------------------------------- -->
     <!-- Search part -->
     <!-- ---------------------------------------------- -->
-    <div class="hidden-md-and-up me-md-4 me-0">
-      <LcFullVerticalHeaderSearchbar />
-    </div>
 
     <!---/Search part -->
     <v-spacer class="hidden-sm-and-down" />
@@ -81,20 +78,10 @@ function handleScroll() {
       <LcFullLogo />
     </div>
 
-    <div class="hidden-sm-and-down me-sm-4 me-4">
-      <LcFullVerticalHeaderSearchbar />
-    </div>
-
     <div class="me-sm-4 me-0">
       <LcFullVerticalHeaderThemeToggler />
     </div>
 
-    <!-- ---------------------------------------------- -->
-    <!-- Notification -->
-    <!-- ---------------------------------------------- -->
-    <div class="hidden-sm-and-down me-sm-6 me-4">
-      <LcFullVerticalHeaderNotificationDD />
-    </div>
     <!-- ---------------------------------------------- -->
     <!-- User Profile -->
     <!-- ---------------------------------------------- -->
@@ -124,7 +111,6 @@ function handleScroll() {
               <Icon icon="solar:cart-3-line-duotone" height="24" width="24" />
             </v-badge>
           </v-btn>
-          <LcFullVerticalHeaderNotificationDD />
           <LcFullVerticalHeaderProfileDD />
         </div>
       </v-sheet>

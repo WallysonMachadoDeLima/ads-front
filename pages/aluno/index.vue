@@ -5,45 +5,45 @@ import { paths } from '@/routes/paths';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import PageHeader from '~/components/shared/PageHeader.vue';
-import { CorpoDocenteService } from '~/services';
-import { CORPO_DOCENTE_BREADCRUMBS_LIST, CORPO_DOCENTE_TABLE_HEADERS } from './enums/corpo-docente-enums';
+import { AlunoService } from '~/services';
+import { ALUNO_BREADCRUMBS_LIST, ALUNO_TABLE_HEADERS } from './enums/aluno-enums';
 
 const router = useRouter();
-const corpoDocente = ref<any[]>([]);
+const aluno = ref<any[]>([]);
 const loading = ref(true);
 
-const breadcrumbs = CORPO_DOCENTE_BREADCRUMBS_LIST;
-const headers = CORPO_DOCENTE_TABLE_HEADERS;
+const breadcrumbs = ALUNO_BREADCRUMBS_LIST;
+const headers = ALUNO_TABLE_HEADERS;
 
 const carregarCorpodocente = async () => {
   try {
     loading.value = true;
-    corpoDocente.value = await CorpoDocenteService.findAll();
+    aluno.value = await AlunoService.findAll();
   } catch (error) {
-    console.error('Erro ao carregar corpo docente:', error);
+    console.error('Erro ao carregar aluno:', error);
   } finally {
     loading.value = false;
   }
 };
 
 const handleView = (id: number | string) => {
-  router.push(paths.corpoDocente.view(id.toString()));
+  router.push(paths.aluno.view(id.toString()));
 };
 
 const handleEdit = (id: number | string) => {
-  router.push(paths.corpoDocente.edit(id.toString()));
+  router.push(paths.aluno.edit(id.toString()));
 };
 
 const handleDelete = async (id: string | number) => {
   const idNum = Number(id);
-  if (!confirm('Deseja realmente excluir este servidor?')) return;
+  if (!confirm('Deseja realmente excluir este aluno?')) return;
 
   try {
-    await CorpoDocenteService.delete(idNum);
-    alert('corpo docente excluído com sucesso!');
+    await AlunoService.delete(idNum);
+    alert('aluno excluído com sucesso!');
     carregarCorpodocente();
   } catch (error) {
-    alert('Erro ao excluir corpo docente.');
+    alert('Erro ao excluir aluno.');
     console.error(error);
   }
 };
@@ -60,16 +60,16 @@ onMounted(() => {
   <v-row>
     <v-col cols="12">
       <PageHeader
-        title="Listar de Corpo Docente"
+        title="Listar de Aluno"
         :breadcrumbs="breadcrumbs"
         button-label="Novo Integrante"
-        :button-to="paths.corpoDocente.new"
+        :button-to="paths.aluno.new"
       />
 
       <UiParentCard>
         <v-data-table
           :headers="headers"
-          :items="corpoDocente"
+          :items="aluno"
           :loading="loading"
           class="elevation-1"
           item-value="idCorpodocente"

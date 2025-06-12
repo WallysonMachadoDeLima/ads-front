@@ -25,19 +25,25 @@ const sidebarItem: menu[] = [
     BgColor: 'primary',
     to: "/",
   },
-  
+
   { header: 'Others' },
   {
     title: 'Servidor',
     icon: 'square-academic-cap-line-duotone',
-    BgColor: 'success',
+    BgColor: 'primary',
     to: paths.servidor.list,
   },
   {
     title: 'Corpo Docente',
     icon: 'square-academic-cap-line-duotone',
-    BgColor: 'success',
+    BgColor: 'primary',
     to: paths.corpoDocente.list,
+  },
+  {
+    title: 'Aluno',
+    icon: 'square-academic-cap-line-duotone',
+    BgColor: 'primary',
+    to: paths.aluno.list,
   },
 ];
 

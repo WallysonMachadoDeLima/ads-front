@@ -60,13 +60,13 @@ onMounted(() => {
   <v-row>
     <v-col cols="12">
       <PageHeader
-        title="Servidores"
+        title="Listar Servidores"
         :breadcrumbs="breadcrumbs"
         button-label="Novo Servidor"
         :button-to="paths.servidor.new"
       />
 
-      <UiParentCard title="Listagem de servidores">
+      <UiParentCard>
         <v-data-table
           :headers="headers"
           :items="servidores"
