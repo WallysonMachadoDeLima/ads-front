@@ -4,7 +4,7 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { paths } from '@/routes/paths';
 import { useRouter } from 'vue-router';
 import PageHeader from '~/components/shared/PageHeader.vue';
-import { AlunoService } from '~/services/';
+//import { AlunoService } from '~/services/';
 import { ALUNO_BREADCRUMBS_LIST } from './enums/aluno-enums';
 import { useAlunoForm } from './resolvers/aluno-resolver';
 
@@ -23,7 +23,7 @@ const {
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    await AlunoService.create(values);
+    //await AlunoService.create(values);
     alert('Aluno cadastrado com sucesso!');
     router.push(paths.aluno.list);
   } catch (error) {

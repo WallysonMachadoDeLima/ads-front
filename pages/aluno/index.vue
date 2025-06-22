@@ -5,7 +5,7 @@ import { paths } from '@/routes/paths';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import PageHeader from '~/components/shared/PageHeader.vue';
-import { AlunoService } from '~/services';
+//import { AlunoService } from '~/services';
 import { ALUNO_BREADCRUMBS_LIST, ALUNO_TABLE_HEADERS } from './enums/aluno-enums';
 
 const router = useRouter();
@@ -18,7 +18,7 @@ const headers = ALUNO_TABLE_HEADERS;
 const carregarCorpodocente = async () => {
   try {
     loading.value = true;
-    aluno.value = await AlunoService.findAll();
+    //aluno.value = await AlunoService.findAll();
   } catch (error) {
     console.error('Erro ao carregar aluno:', error);
   } finally {
@@ -39,7 +39,7 @@ const handleDelete = async (id: string | number) => {
   if (!confirm('Deseja realmente excluir este aluno?')) return;
 
   try {
-    await AlunoService.delete(idNum);
+    //await AlunoService.delete(idNum);
     alert('aluno excluído com sucesso!');
     carregarCorpodocente();
   } catch (error) {

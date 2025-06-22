@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import AlunoNewEdit from '../corpo-docente-new-edit.vue';
+  import AlunoNewEdit from '../aluno-new-edit.vue';
 </script>
 
 <template>

@@ -4,8 +4,8 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { paths } from '@/routes/paths';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import type { IAlunoFindOneByIdDto } from '~/interfaces';
-import { AlunoService } from '~/services';
+import type { IAlunoFindOneByIdDto } from '@/interfaces';
+//import { AlunoService } from '~/services';
 
 const route = useRoute();
 const id = Number(route.params.id);
@@ -22,7 +22,7 @@ const breadcrumbs = [
 onMounted(async () => {
   try {
     loading.value = true;
-    aluno.value = await AlunoService.findOneById(id);
+    //aluno.value = await AlunoService.findOneById(id);
   } catch (error) {
     console.error('Erro ao carregar aluno:', error);
   } finally {
