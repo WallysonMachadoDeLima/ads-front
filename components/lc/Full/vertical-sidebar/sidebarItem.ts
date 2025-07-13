@@ -45,6 +45,12 @@ const sidebarItem: menu[] = [
     BgColor: 'primary',
     to: paths.aluno.list,
   },
+  {
+    title: 'Disciplina',
+    icon: 'book-outline',
+    BgColor: 'primary',
+    to: paths.disciplina.list,
+  },
 ];
 
 export default sidebarItem;

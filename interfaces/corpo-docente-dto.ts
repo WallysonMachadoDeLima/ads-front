@@ -1,28 +1,48 @@
 export interface ICorpoDocenteNewEditDto {
     servidorId: number;
-    disciplina: number;
+    disciplinaId: number;
 }
 
 export interface ICorpoDocenteFindAllDto {
     id: number;
-    servidor:
-    {
-        idServidor: number;
+    disciplinaId: number;
+    disciplina: {
+        id: number;
         nome: string;
-    }
-
-    disciplina: number;
-}
-
-export interface ICorpoDocenteFindOneByIdDto {
-    id: number;
+        codigo: string;
+        descricao: string;
+        objetivos: string;
+        conteudo: string;
+    };
+    servidorId: number;
     servidor: {
-        idServidor: number;
+        id: number;
         nome: string;
         cpf: string;
         email: string;
         senha: string;
-        tipo: string;
+        tipo: number;
     };
-    disciplina?: number;
+}
+
+export interface ICorpoDocenteFindOneByIdDto {
+    id: number;
+    disciplinaId: number;
+    disciplina: {
+        id: number;
+        nome: string;
+        codigo: string;
+        descricao: string;
+        objetivos: string;
+        conteudo: string;
+    };
+    servidorId: number;
+    servidor: {
+        id: number;
+        nome: string;
+        cpf: string;
+        email: string;
+        senha: string;
+        tipo: number;
+    };
 }

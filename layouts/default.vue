@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useCustomizerStore } from "@/stores/customizer";
+import GlobalNotification from "~/components/shared/GlobalNotification.vue";
+import GlobalConfirmation from "~/components/shared/GlobalConfirmation.vue";
+
 const customizer = useCustomizerStore();
 const title = ref(
   "Spikeadmin - Nuxt3 Typescript based Admin Dashboard Template"
@@ -78,6 +81,12 @@ useHead({
           </v-container>
         </div>
       </v-main>
+      
+      <!-- Global Notification Component -->
+      <GlobalNotification />
+      
+      <!-- Global Confirmation Component -->
+      <GlobalConfirmation />
     </v-app>
   </v-locale-provider>
 
@@ -141,6 +150,12 @@ useHead({
           </v-container>
         </div>
       </v-main>
+      
+      <!-- Global Notification Component -->
+      <GlobalNotification />
+      
+      <!-- Global Confirmation Component -->
+      <GlobalConfirmation />
     </v-app>
   </v-locale-provider>
 </template>
