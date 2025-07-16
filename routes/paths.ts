@@ -23,5 +23,23 @@ export const paths = {
     new: '/disciplina/new/',
     edit: (id: string | number) => `/disciplina/${id}/edit`,
     view: (id: string | number) => `/disciplina/${id}/viewer`,
+  },
+  matrizCurricular: {
+    list: '/matriz-curricular',
+    new: '/matriz-curricular/new/',
+    edit: (id: string | number) => `/matriz-curricular/${id}/edit`,
+    view: (id: string | number) => `/matriz-curricular/${id}/viewer`,
+  },
+  tcc: {
+    list: '/tcc',
+    new: '/tcc/new/',
+    edit: (id: string | number) => `/tcc/${id}/edit`,
+    view: (id: string | number) => `/tcc/${id}/viewer`,
+  },
+  documento: {
+    list: '/documento',
+    new: '/documento/new/',
+    edit: (id: string | number) => `/documento/${id}/edit`,
+    view: (id: string | number) => `/documento/${id}/viewer`,
   }
 };
