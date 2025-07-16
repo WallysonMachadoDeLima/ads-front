@@ -10,7 +10,7 @@ services:
       dockerfile: Dockerfile
     # mapeia a porta 3001 do container para 3001 na máquina host
     ports:
-      - '3001:3001'
+      - '3001:3000'
     # Caso queira logar variáveis ou montar código em dev, descomente:
     # volumes:
     #   - ./:/app
