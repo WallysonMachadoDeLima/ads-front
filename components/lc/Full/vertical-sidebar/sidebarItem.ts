@@ -18,20 +18,26 @@ export interface menu {
 }
 
 const sidebarItem: menu[] = [
-  { header: 'Starterkit' },
+  { header: 'Pagina Inicial' },
   {
-    title: "Sample Page",
+    title: "Dashboard",
     icon: 'screencast-2-linear',
     BgColor: 'primary',
     to: "/",
   },
 
-  { header: 'Others' },
+  { header: 'outros' },
   {
     title: 'Servidor',
     icon: 'square-academic-cap-line-duotone',
     BgColor: 'primary',
     to: paths.servidor.list,
+  },
+  {
+    title: 'Disciplina',
+    icon: 'book-outline',
+    BgColor: 'primary',
+    to: paths.disciplina.list,
   },
   {
     title: 'Corpo Docente',
@@ -44,12 +50,6 @@ const sidebarItem: menu[] = [
     icon: 'user-bold',
     BgColor: 'primary',
     to: paths.aluno.list,
-  },
-  {
-    title: 'Disciplina',
-    icon: 'book-outline',
-    BgColor: 'primary',
-    to: paths.disciplina.list,
   },
   {
     title: 'Matriz Curricular',
