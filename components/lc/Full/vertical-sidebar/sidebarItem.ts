@@ -35,13 +35,13 @@ const sidebarItem: menu[] = [
   },
   {
     title: 'Corpo Docente',
-    icon: 'square-academic-cap-line-duotone',
+    icon: 'notebook-outline',
     BgColor: 'primary',
     to: paths.corpoDocente.list,
   },
   {
     title: 'Aluno',
-    icon: 'square-academic-cap-line-duotone',
+    icon: 'user-bold',
     BgColor: 'primary',
     to: paths.aluno.list,
   },
@@ -50,6 +50,24 @@ const sidebarItem: menu[] = [
     icon: 'book-outline',
     BgColor: 'primary',
     to: paths.disciplina.list,
+  },
+  {
+    title: 'Matriz Curricular',
+    icon: 'widget-6-outline',
+    BgColor: 'primary',
+    to: paths.matrizCurricular.list,
+  },
+  {
+    title: 'TCC',
+    icon: 'document-text-outline',
+    BgColor: 'primary',
+    to: paths.tcc.list,
+  },
+  {
+    title: 'Documento',
+    icon: 'file-text-outline',
+    BgColor: 'primary',
+    to: paths.documento.list,
   },
 ];
 

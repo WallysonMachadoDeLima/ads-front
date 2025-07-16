@@ -29,9 +29,6 @@ const sidebarMenu = shallowRef(sidebarItems);
                 </template>
                 <!-- <Moreoption/> -->
             </v-list>
-            <div class="pa-6 px-4 userbottom mt-10">
-                <LcFullVerticalSidebarExtrabox/>
-            </div>
         </perfect-scrollbar>
     </v-navigation-drawer>
 </template>
