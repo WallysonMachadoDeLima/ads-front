@@ -1,0 +1,23 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  app:
+    container_name: ads-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # mapeia a porta 3000 do container para 3000 na máquina host
+    ports:
+      - '3000:3000'
+    # Caso queira logar variáveis ou montar código em dev, descomente:
+    # volumes:
+    #   - ./:/app
+    #   - /app/node_modules
+    environment:
+      # Garante que o Nuxt fique acessível externamente
+      NUXT_HOST: '0.0.0.0'
+      NODE_ENV: 'production'
+    # O comando padrão já está declarado no Dockerfile (npm run preview)
+    #command: npm run preview
