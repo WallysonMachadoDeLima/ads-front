@@ -96,21 +96,16 @@ onMounted(() => {
         <v-col cols="12" md="6">
           <v-card class="mb-4" variant="outlined">
             <v-card-title class="bg-primary text-white">
-              Informações Básicas
+              Informações Gerais
             </v-card-title>
             <v-card-text>
               <v-row>
-                <v-col cols="12">
-                  <div class="mb-3">
-                    <strong>ID:</strong> {{ disciplina.id }}
-                  </div>
-                </v-col>
-                <v-col cols="12">
+                <v-col cols="6">
                   <div class="mb-3">
                     <strong>Nome:</strong> {{ disciplina.nome }}
                   </div>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="6">
                   <div class="mb-3">
                     <strong>Código:</strong> {{ disciplina.codigo }}
                   </div>

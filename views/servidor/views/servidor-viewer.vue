@@ -39,6 +39,45 @@ const getTipoNome = (tipoValue: number): string => {
   return tipo ? tipo.name : 'Desconhecido';
 };
 
+const formatarData = (dataISO: string): string => {
+  if (!dataISO) return 'Não informado';
+  try {
+    // Se a data vem com timezone (T e Z), extrair apenas a parte da data
+    let dataParaFormatacao = dataISO;
+    if (dataISO.includes('T')) {
+      dataParaFormatacao = dataISO.split('T')[0];
+    }
+    
+    // Dividir a data YYYY-MM-DD
+    const [year, month, day] = dataParaFormatacao.split('-');
+    
+    // Criar data local sem problemas de timezone
+    const data = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    
+    if (isNaN(data.getTime())) {
+      return 'Data inválida';
+    }
+    
+    return data.toLocaleDateString('pt-BR');
+  } catch (error) {
+    console.error('Erro ao formatar data:', error, 'Data original:', dataISO);
+    return 'Data inválida';
+  }
+};
+
+const formatarSexo = (sexo: string): string => {
+  switch (sexo) {
+    case '1':
+    case 'Masculino':
+      return 'Masculino';
+    case '2':
+    case 'Feminino':
+      return 'Feminino';
+    default:
+      return 'Não informado';
+  }
+};
+
 const loadServidor = async () => {
   try {
     loading.value = true;
@@ -51,6 +90,11 @@ const loadServidor = async () => {
     
     tipos.value = tiposData;
     servidor.value = servidorData;
+    
+    // Debug: verificar os dados recebidos
+    console.log('Dados do servidor carregados:', servidorData);
+    console.log('Data de nascimento:', servidorData.dataNascimento);
+    console.log('Sexo:', servidorData.sexo);
   } catch (err: any) {
     error.value = err.message || 'Erro ao carregar servidor';
     console.error('Erro ao carregar servidor:', err);
@@ -117,17 +161,22 @@ onMounted(() => {
                   <v-row>
                     <v-col cols="12">
                       <div class="mb-3">
-                        <strong>ID:</strong> {{ servidor.idServidor }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12">
-                      <div class="mb-3">
                         <strong>Nome:</strong> {{ servidor.nome }}
                       </div>
                     </v-col>
                     <v-col cols="12">
                       <div class="mb-3">
                         <strong>CPF:</strong> {{ servidor.cpf }}
+                      </div>
+                    </v-col>
+                    <v-col cols="7">
+                      <div class="mb-3">
+                        <strong>Data de Nascimento:</strong> {{ formatarData(servidor.dataNascimento) }}
+                      </div>
+                    </v-col>
+                    <v-col cols="5">
+                      <div class="mb-3">
+                        <strong>Sexo:</strong> {{ formatarSexo(servidor.sexo) }}
                       </div>
                     </v-col>
                   </v-row>
@@ -150,6 +199,17 @@ onMounted(() => {
                     <v-col cols="12">
                       <div class="mb-3">
                         <strong>Tipo:</strong> {{ getTipoNome(servidor.tipo) }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12">
+                      <div class="mb-3">
+                        <strong>Situação:</strong> 
+                        <v-chip 
+                          :color="servidor.situacao === 'Ativo' ? 'success' : servidor.situacao === 'Inativo' ? 'warning' : 'error'"
+                          size="small"
+                        >
+                          {{ servidor.situacao }}
+                        </v-chip>
                       </div>
                     </v-col>
                   </v-row>

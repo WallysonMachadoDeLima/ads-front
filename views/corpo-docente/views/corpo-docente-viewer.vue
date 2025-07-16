@@ -31,6 +31,16 @@ const handleBack = () => {
   navigateTo(paths.corpoDocente.list);
 };
 
+const formatTipoContrato = (tipoContrato: number): string => {
+  switch (tipoContrato) {
+    case 0: return 'Efetivo';
+    case 1: return 'Temporário';
+    case 2: return 'Estagiário';
+    case 3: return 'Voluntário';
+    default: return 'Não informado';
+  }
+};
+
 const loadCorpoDocente = async () => {
   try {
     loading.value = true;
@@ -102,27 +112,22 @@ onMounted(() => {
                   <v-row>
                     <v-col cols="12">
                       <div class="mb-3">
-                        <strong>ID:</strong> {{ corpoDocente.id }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12">
-                      <div class="mb-3">
                         <strong>Nome:</strong> {{ corpoDocente.servidor.nome }}
                       </div>
                     </v-col>
-                    <v-col cols="12">
+                    <v-col cols="6">
                       <div class="mb-3">
                         <strong>CPF:</strong> {{ corpoDocente.servidor.cpf }}
+                      </div>
+                    </v-col>
+                    <v-col cols="6">
+                      <div class="mb-3">
+                        <strong>Tipo:</strong> {{ corpoDocente.servidor.tipo === 1 ? 'Administrador' : 'Professor' }}
                       </div>
                     </v-col>
                     <v-col cols="12">
                       <div class="mb-3">
                         <strong>Email:</strong> {{ corpoDocente.servidor.email }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12">
-                      <div class="mb-3">
-                        <strong>Tipo:</strong> {{ corpoDocente.servidor.tipo === 1 ? 'Administrador' : 'Professor' }}
                       </div>
                     </v-col>
                   </v-row>
@@ -145,6 +150,50 @@ onMounted(() => {
                     <v-col cols="12">
                       <div class="mb-3">
                         <strong>Código:</strong> {{ corpoDocente.disciplina.codigo }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="12">
+              <v-card class="mb-4" variant="outlined">
+                <v-card-title class="bg-primary text-white">
+                  Informações Acadêmicas
+                </v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <div class="mb-3">
+                        <strong>Turno:</strong> {{ corpoDocente.turno || 'Não informado' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <div class="mb-3">
+                        <strong>Carga Horária Semanal:</strong> {{ corpoDocente.cargaHorariaSemanal || 'Não informado' }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <div class="mb-3">
+                        <strong>Tipo de Contrato:</strong> {{ formatTipoContrato(corpoDocente.tipoContrato) }}
+                      </div>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <div class="mb-3">
+                        <strong>Situação:</strong> 
+                        <v-chip 
+                          :color="corpoDocente.situacao === 'Ativo' ? 'success' : corpoDocente.situacao === 'Inativo' ? 'warning' : 'error'"
+                          size="small"
+                        >
+                          {{ corpoDocente.situacao || 'Não informado' }}
+                        </v-chip>
+                      </div>
+                    </v-col>
+                    <v-col cols="12" v-if="corpoDocente.observacoes">
+                      <div class="mb-3">
+                        <strong>Observações:</strong>
+                        <p class="text-body-2 mt-2" style="white-space: pre-line;">{{ corpoDocente.observacoes }}</p>
                       </div>
                     </v-col>
                   </v-row>

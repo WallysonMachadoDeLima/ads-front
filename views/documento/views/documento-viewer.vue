@@ -3,17 +3,8 @@ import PageHeader from '@/components/shared/PageHeader.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { paths } from '@/routes/paths';
 import { onMounted, ref } from 'vue';
-import type { IAlunoDto } from '@/interfaces';
-import { AlunoService } from '~/services';
-
-const formatDate = (dateString: string) => {
-  if (!dateString) return 'Não informado';
-  try {
-    return new Date(dateString).toLocaleDateString('pt-BR');
-  } catch {
-    return 'Data inválida';
-  }
-};
+import type { IDocumentoDto } from '@/interfaces';
+import { documentoService } from '~/services';
 
 // Recebe o ID como prop
 const props = defineProps<{
@@ -23,31 +14,38 @@ const props = defineProps<{
 // Reactive state
 const loading = ref(false);
 const error = ref<string | null>(null);
-const aluno = ref<IAlunoDto | null>(null);
+const documento = ref<IDocumentoDto | null>(null);
 
 const breadcrumbs = [
   { title: 'Dashboard', disabled: false, href: paths.dashboard },
-  { title: 'Alunos', disabled: false, href: paths.aluno.list },
+  { title: 'Documentos', disabled: false, href: paths.documento.list },
   { title: 'Visualizar', disabled: true },
 ];
 
 // Methods
 const handleEdit = () => {
-  navigateTo(paths.aluno.edit(props.id));
+  navigateTo(paths.documento.edit(props.id));
 };
 
 const handleBack = () => {
-  navigateTo(paths.aluno.list);
+  navigateTo(paths.documento.list);
 };
 
-const loadAluno = async () => {
+const openDocument = () => {
+  if (documento.value?.url) {
+    window.open(documento.value.url, '_blank');
+  }
+};
+
+const loadDocumento = async () => {
   try {
     loading.value = true;
     error.value = null;
-    aluno.value = await AlunoService.findOneById(Number(props.id));
+    const documentoData = await documentoService.findOneById(Number(props.id));
+    documento.value = documentoData;
   } catch (err: any) {
-    error.value = err.message || 'Erro ao carregar aluno';
-    console.error('Erro ao carregar aluno:', err);
+    error.value = err.message || 'Erro ao carregar documento';
+    console.error('Erro ao carregar documento:', err);
   } finally {
     loading.value = false;
   }
@@ -55,7 +53,7 @@ const loadAluno = async () => {
 
 // Load data on mount
 onMounted(() => {
-  loadAluno();
+  loadDocumento();
 });
 </script>
 
@@ -63,7 +61,7 @@ onMounted(() => {
   <v-row>
     <v-col cols="12">
       <PageHeader
-        title="Visualizar Aluno"
+        title="Visualizar Documento"
         :breadcrumbs="breadcrumbs"
       />
 
@@ -97,36 +95,26 @@ onMounted(() => {
 
         <div v-if="loading" class="text-center py-8">
           <v-progress-circular indeterminate color="primary" />
-          <div class="mt-2">Carregando aluno...</div>
+          <div class="mt-2">Carregando documento...</div>
         </div>
 
-        <div v-else-if="aluno" class="aluno-details">
+        <div v-else-if="documento" class="documento-details">
           <v-row>
             <v-col cols="12" md="6">
               <v-card class="mb-4" variant="outlined">
                 <v-card-title class="bg-primary text-white">
-                  Informações Pessoais
+                  Informações Gerais
                 </v-card-title>
                 <v-card-text>
                   <v-row>
                     <v-col cols="12">
                       <div class="mb-3">
-                        <strong>Nome:</strong> {{ aluno.nome }}
+                        <strong>Nome:</strong> {{ documento.nome }}
                       </div>
                     </v-col>
                     <v-col cols="12">
                       <div class="mb-3">
-                        <strong>CPF:</strong> {{ aluno.cpf }}
-                      </div>
-                    </v-col>
-                    <v-col cols="7">
-                      <div class="mb-3">
-                        <strong>Data de Nascimento:</strong> {{ formatDate(aluno.dataNascimento) }}
-                      </div>
-                    </v-col>
-                    <v-col cols="5">
-                      <div class="mb-3">
-                        <strong>Sexo:</strong> {{ aluno.sexo }}
+                        <strong>Descrição:</strong> {{ documento.descricao }}
                       </div>
                     </v-col>
                   </v-row>
@@ -137,46 +125,28 @@ onMounted(() => {
             <v-col cols="12" md="6">
               <v-card class="mb-4" variant="outlined">
                 <v-card-title class="bg-primary text-white">
-                  Informações de Contato
+                  Acesso ao Documento
                 </v-card-title>
                 <v-card-text>
                   <v-row>
                     <v-col cols="12">
                       <div class="mb-3">
-                        <strong>Email:</strong> {{ aluno.email }}
+                        <strong>URL:</strong> 
+                        <div class="mt-1">
+                          <small class="text-caption">{{ documento.url }}</small>
+                        </div>
                       </div>
                     </v-col>
                     <v-col cols="12">
-                      <div class="mb-3">
-                        <strong>Telefone:</strong> {{ aluno.telefone }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12">
-                      <div class="mb-3">
-                        <strong>Matrícula:</strong> {{ aluno.matricula }}
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-col>
-
-            <v-col cols="12">
-              <v-card class="mb-4" variant="outlined">
-                <v-card-title class="bg-primary text-white">
-                  Informações Acadêmicas
-                </v-card-title>
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="12" md="6">
-                      <div class="mb-3">
-                        <strong>Período:</strong> {{ aluno.periodo }}
-                      </div>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <div class="mb-3">
-                        <strong>Situação:</strong> {{ aluno.situacao }}
-                      </div>
+                      <v-btn
+                        color="primary"
+                        variant="elevated"
+                        prepend-icon="mdi-open-in-new"
+                        block
+                        @click="openDocument"
+                      >
+                        Abrir Documento
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-card-text>
@@ -186,8 +156,8 @@ onMounted(() => {
         </div>
 
         <div v-else class="text-center py-8">
-          <v-icon size="48" class="mb-2">mdi-account-alert-outline</v-icon>
-          <div>Aluno não encontrado</div>
+          <v-icon size="48" class="mb-2">mdi-file-document-alert</v-icon>
+          <div>Documento não encontrado</div>
         </div>
       </UiParentCard>
     </v-col>
@@ -195,12 +165,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.aluno-details .v-card-title {
+.documento-details .v-card-title {
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.aluno-details strong {
+.documento-details strong {
   color: rgb(var(--v-theme-primary));
 }
 </style>

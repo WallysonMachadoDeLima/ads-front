@@ -32,6 +32,8 @@ const id = Number(props.currentId) || 0;
 const isEdit = props.isEdit || !!id;
 
 const tipos = ref<IEnumItem[]>([]);
+const sexos = ref<IEnumItem[]>([]);
+const situacoes = ref<IEnumItem[]>([]);
 
 const {
   handleSubmit,
@@ -41,6 +43,9 @@ const {
   email, emailErro,
   senha, senhaErro,
   tipo, tipoErro,
+  dataNascimento, dataNascimentoErro,
+  sexo, sexoErro,
+  situacao, situacaoErro,
 } = useServidorForm(isEdit);
 
 onMounted(async () => {
@@ -48,20 +53,86 @@ onMounted(async () => {
   try {
     tipos.value = await EnumsService.getServidorTipos();
   } catch (error) {
-    console.error('Erro ao carregar tipos de servidor:', error);
+    console.error('Erro ao carregar dados auxiliares:', error);
   }
+
+  // Sexo e Situação sempre valores padrão
+  sexos.value = [
+    { value: 0, name: 'Masculino', description: 'Masculino' },
+    { value: 1, name: 'Feminino', description: 'Feminino' },
+    { value: 2, name: 'Outros', description: 'Outros' }
+  ];
+  
+  situacoes.value = [
+    { value: 1, name: 'Ativo', description: 'Servidor ativo' },
+    { value: 2, name: 'Inativo', description: 'Servidor inativo' },
+    { value: 3, name: 'Suspenso', description: 'Servidor suspenso' },
+  ];
 
   // Se for edição, carregar dados do servidor
   if (isEdit && id) {
     try {
       const servidor: IServidorDto = await ServidorService.findOneById(id);
+      
+      console.log('Dados do servidor para edição:', servidor);
+      console.log('Data de nascimento original:', servidor.dataNascimento);
+      
+      // Mapear strings de volta para números para o formulário
+      const sexoReverseMap: { [key: string]: number } = {
+        'Masculino': 0,
+        'Feminino': 1,
+        'Outro': 2
+      };
+
+      const situacaoReverseMap: { [key: string]: number } = {
+        'Ativo': 1,
+        'Inativo': 2,
+        'Suspenso': 3
+      };
+
+      // Converter data ISO para formato YYYY-MM-DD
+      const formatarDataParaInput = (dataISO: string): string => {
+        if (!dataISO) return '';
+        try {
+          // Extrair apenas a parte da data (YYYY-MM-DD) do ISO string
+          if (dataISO.includes('T')) {
+            return dataISO.split('T')[0];
+          }
+          
+          // Se já estiver no formato YYYY-MM-DD, retornar como está
+          if (dataISO.match(/^\d{4}-\d{2}-\d{2}$/)) {
+            return dataISO;
+          }
+          
+          // Fallback: tentar converter
+          const data = new Date(dataISO);
+          if (isNaN(data.getTime())) return '';
+          
+          const year = data.getFullYear();
+          const month = String(data.getMonth() + 1).padStart(2, '0');
+          const day = String(data.getDate()).padStart(2, '0');
+          
+          return `${year}-${month}-${day}`;
+        } catch {
+          return '';
+        }
+      };
+
       setValues({
         nome: servidor.nome,
         cpf: servidor.cpf,
         email: servidor.email,
         senha: '', // Não carregar senha por segurança
         tipo: servidor.tipo,
+        dataNascimento: formatarDataParaInput(servidor.dataNascimento),
+        sexo: sexoReverseMap[servidor.sexo] || 0,
+        situacao: situacaoReverseMap[servidor.situacao] || 1,
       });
+      
+      console.log('Valores definidos no formulário:');
+      console.log('Data de nascimento original:', servidor.dataNascimento);
+      console.log('Data de nascimento formatada:', formatarDataParaInput(servidor.dataNascimento));
+      console.log('Sexo mapeado:', sexoReverseMap[servidor.sexo] || 0);
     } catch (error) {
       console.error('Erro ao carregar dados do servidor:', error);
       showError('Erro ao carregar dados do servidor.');
@@ -71,12 +142,28 @@ onMounted(async () => {
 
 const onSubmit = handleSubmit(async (formData: ICreateUpdateServidorDto) => {
   try {
-    // Preparar dados para envio
-    const payload: ICreateUpdateServidorDto = {
+    // Mapear valores para strings conforme API
+    const sexoMap: { [key: number]: string } = {
+      0: 'Masculino',
+      1: 'Feminino', 
+      2: 'Outro'
+    };
+
+    const situacaoMap: { [key: number]: string } = {
+      1: 'Ativo',
+      2: 'Inativo',
+      3: 'Suspenso'
+    };
+
+    // Preparar dados para envio com types corretos para API
+    const payload: any = {
       nome: formData.nome,
       cpf: formData.cpf,
       email: formData.email,
       tipo: formData.tipo,
+      dataNascimento: formData.dataNascimento,
+      sexo: sexoMap[formData.sexo] || 'Outro',
+      situacao: situacaoMap[formData.situacao] || 'Ativo',
     };
 
     // Adicionar senha apenas se fornecida
@@ -85,7 +172,6 @@ const onSubmit = handleSubmit(async (formData: ICreateUpdateServidorDto) => {
     }
 
     if (isEdit) {
-      payload.idServidor = id;
       await ServidorService.update(id, payload);
       success('Servidor atualizado com sucesso!');
     } else {
@@ -124,14 +210,52 @@ const onSubmit = handleSubmit(async (formData: ICreateUpdateServidorDto) => {
               <v-text-field v-model="email" :error-messages="emailErro" label="Email" outlined type="email" />
             </v-col>
             <v-col cols="12" md="6">
-              <v-text-field v-model="senha" :error-messages="senhaErro" label="Senha" outlined type="password" />
+              <v-text-field 
+                v-model="dataNascimento" 
+                :error-messages="dataNascimentoErro" 
+                label="Data de Nascimento" 
+                outlined 
+                type="date" 
+              />
             </v-col>
             <v-col cols="12" md="6">
+              <v-select 
+                v-model="sexo" 
+                :items="sexos" 
+                :error-messages="sexoErro" 
+                label="Sexo" 
+                outlined 
+                item-title="name"
+                item-value="value"
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field 
+                v-model="senha" 
+                :error-messages="senhaErro" 
+                :label="isEdit ? 'Nova Senha (opcional)' : 'Senha'" 
+                :placeholder="isEdit ? 'Deixe em branco para manter a senha atual' : ''"
+                outlined 
+                type="password" 
+              />
+            </v-col>
+            <v-col cols="12" md="3">
               <v-select 
                 v-model="tipo" 
                 :items="tipos" 
                 :error-messages="tipoErro" 
                 label="Tipo" 
+                outlined 
+                item-title="name"
+                item-value="value"
+              />
+            </v-col>
+            <v-col cols="12" md="3">
+              <v-select 
+                v-model="situacao" 
+                :items="situacoes" 
+                :error-messages="situacaoErro" 
+                label="Situação" 
                 outlined 
                 item-title="name"
                 item-value="value"

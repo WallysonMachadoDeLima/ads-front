@@ -4,9 +4,9 @@ import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import { paths } from '@/routes/paths';
-import { DISCIPLINA_BREADCRUMBS_NEW_EDIT } from './enums/disciplina-enums';
-import { useDisciplinaForm } from './resolvers/disciplina-resolver';
-import { disciplinaService } from '@/services';
+import { DOCUMENTO_BREADCRUMBS_NEW_EDIT } from './enums/documento-enums';
+import { useDocumentoForm } from './resolvers/documento-resolver';
+import { documentoService } from '@/services';
 import { useNotification } from '~/composables/useNotification';
 
 //------------------------------------------------------------------------------
@@ -14,10 +14,8 @@ import { useNotification } from '~/composables/useNotification';
 const props = defineProps<{
   currentData?: {
     nome: string;
-    codigo: string;
     descricao: string;
-    objetivos: string;
-    conteudo: string;
+    url: string;
   };
   isEdit?: boolean;
   currentId?: string | number;
@@ -33,11 +31,9 @@ const {
   setValues, 
   resetForm,
   nome, nomeErro,
-  codigo, codigoErro,
   descricao, descricaoErro,
-  objetivos, objetivosErro,
-  conteudo, conteudoErro
-} = useDisciplinaForm(isEdit);
+  url, urlErro
+} = useDocumentoForm(isEdit);
 
 // Loading state
 const loading = ref(false);
@@ -47,19 +43,17 @@ onMounted(async () => {
   if (isEdit && id) {
     try {
       loading.value = true;
-      const disciplina = await disciplinaService.getById(id);
-      if (disciplina) {
+      const documento = await documentoService.findOneById(id);
+      if (documento) {
         setValues({
-          nome: disciplina.nome,
-          codigo: disciplina.codigo,
-          descricao: disciplina.descricao,
-          objetivos: disciplina.objetivos,
-          conteudo: disciplina.conteudo,
+          nome: documento.nome,
+          descricao: documento.descricao,
+          url: documento.url,
         });
       }
     } catch (err: any) {
-      error.value = err.message || 'Erro ao carregar dados da disciplina';
-      console.error('Erro ao carregar dados da disciplina:', err);
+      error.value = err.message || 'Erro ao carregar dados do documento';
+      console.error('Erro ao carregar dados do documento:', err);
     } finally {
       loading.value = false;
     }
@@ -72,18 +66,18 @@ const onSubmit = handleSubmit(async (values) => {
     error.value = null;
 
     if (isEdit) {
-      await disciplinaService.update(id, values);
-      success('Disciplina atualizada com sucesso!');
+      await documentoService.update(id, values);
+      success('Documento atualizado com sucesso!');
     } else {
-      await disciplinaService.create(values);
-      success('Disciplina cadastrada com sucesso!');
+      await documentoService.create(values);
+      success('Documento cadastrado com sucesso!');
     }
 
-    router.push(paths.disciplina.list);
+    router.push(paths.documento.list);
   } catch (err: any) {
-    error.value = err.message || 'Erro ao salvar disciplina';
-    showError('Erro ao salvar disciplina.');
-    console.error('Erro ao salvar disciplina:', err);
+    error.value = err.message || 'Erro ao salvar documento';
+    showError('Erro ao salvar documento.');
+    console.error('Erro ao salvar documento:', err);
   } finally {
     loading.value = false;
   }
@@ -93,8 +87,8 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
   <div>
     <PageHeader 
-      :title="isEdit ? 'Editar Disciplina' : 'Nova Disciplina'" 
-      :breadcrumbs="DISCIPLINA_BREADCRUMBS_NEW_EDIT"
+      :title="isEdit ? 'Editar Documento' : 'Novo Documento'" 
+      :breadcrumbs="DOCUMENTO_BREADCRUMBS_NEW_EDIT"
       :actionButton="{
         title: isEdit ? 'Atualizar' : 'Salvar',
         action: onSubmit
@@ -104,23 +98,13 @@ const onSubmit = handleSubmit(async (values) => {
     <v-row>
       <v-col cols="12">
         <UiParentCard>
-          <v-form  @submit.prevent="onSubmit">
-            <v-row dense>
-              <v-col cols="12" md="6">
+          <form @submit.prevent="onSubmit">
+            <v-row>
+              <v-col cols="12">
                 <v-text-field
                   v-model="nome"
-                  label="Nome da Disciplina"
+                  label="Nome do Documento"
                   :error-messages="nomeErro"
-                  variant="outlined"
-                  required
-                />
-              </v-col>
-              
-              <v-col cols="12" md="6">
-                <v-text-field
-                  v-model="codigo"
-                  label="Código"
-                  :error-messages="codigoErro"
                   variant="outlined"
                   required
                 />
@@ -132,29 +116,18 @@ const onSubmit = handleSubmit(async (values) => {
                   label="Descrição"
                   :error-messages="descricaoErro"
                   variant="outlined"
-                  rows="3"
-                  required
-                />
-              </v-col>
-              
-              <v-col cols="12">
-                <v-textarea
-                  v-model="objetivos"
-                  label="Objetivos"
-                  :error-messages="objetivosErro"
-                  variant="outlined"
-                  rows="3"
-                  required
-                />
-              </v-col>
-              
-              <v-col cols="12">
-                <v-textarea
-                  v-model="conteudo"
-                  label="Conteúdo Programático"
-                  :error-messages="conteudoErro"
-                  variant="outlined"
                   rows="4"
+                  required
+                />
+              </v-col>
+              
+              <v-col cols="12">
+                <v-text-field
+                  v-model="url"
+                  label="URL do Documento"
+                  :error-messages="urlErro"
+                  variant="outlined"
+                  placeholder="https://exemplo.com/documento.pdf"
                   required
                 />
               </v-col>
@@ -166,7 +139,7 @@ const onSubmit = handleSubmit(async (values) => {
                   color="secondary"
                   variant="outlined"
                   class="mr-2"
-                  @click="router.push(paths.disciplina.list)"
+                  @click="router.push(paths.documento.list)"
                 >
                   Cancelar
                 </v-btn>
@@ -180,7 +153,7 @@ const onSubmit = handleSubmit(async (values) => {
                 </v-btn>
               </v-col>
             </v-row>
-          </v-form >
+          </form>
 
           <v-alert
             v-if="error"

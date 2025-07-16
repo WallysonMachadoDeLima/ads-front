@@ -7,6 +7,10 @@ export const validationSchema = yup.object({
   email: yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
   telefone: yup.string().required('Telefone é obrigatório'),
   matricula: yup.string().required('Matrícula é obrigatória'),
+  dataNascimento: yup.string().required('Data de nascimento é obrigatória'),
+  sexo: yup.number().required('Sexo é obrigatório'),
+  periodo: yup.number().required('Período é obrigatório'),
+  situacao: yup.number().required('Situação é obrigatória'),
 });
 
 export const useAlunoForm = (isEdit = false) => {
@@ -18,6 +22,10 @@ export const useAlunoForm = (isEdit = false) => {
       email: '',
       telefone: '',
       matricula: '',
+      dataNascimento: '',
+      sexo: 0,
+      periodo: 1,
+      situacao: 1, // Ativo como padrão
     },
   });
 
@@ -26,6 +34,10 @@ export const useAlunoForm = (isEdit = false) => {
   const { value: email, errorMessage: emailErro } = useField<string>('email');
   const { value: telefone, errorMessage: telefoneErro } = useField<string>('telefone');
   const { value: matricula, errorMessage: matriculaErro } = useField<string>('matricula');
+  const { value: dataNascimento, errorMessage: dataNascimentoErro } = useField<string>('dataNascimento');
+  const { value: sexo, errorMessage: sexoErro } = useField<number>('sexo');
+  const { value: periodo, errorMessage: periodoErro } = useField<number>('periodo');
+  const { value: situacao, errorMessage: situacaoErro } = useField<number>('situacao');
 
   return {
     handleSubmit,
@@ -36,5 +48,9 @@ export const useAlunoForm = (isEdit = false) => {
     email, emailErro,
     telefone, telefoneErro,
     matricula, matriculaErro,
+    dataNascimento, dataNascimentoErro,
+    sexo, sexoErro,
+    periodo, periodoErro,
+    situacao, situacaoErro,
   };
 };

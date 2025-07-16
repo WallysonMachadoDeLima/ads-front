@@ -5,10 +5,11 @@ import { useRouter } from 'vue-router'
 import UiParentCard from '@/components/shared/UiParentCard.vue'
 import PageHeader from '@/components/shared/PageHeader.vue'
 import { paths } from '@/routes/paths'
-import { CorpoDocenteService, ServidorService, disciplinaService } from '~/services'
+import { CorpoDocenteService, ServidorService, disciplinaService, EnumsService } from '~/services'
 import { useNotification } from '~/composables/useNotification'
 import { CORPO_DOCENTE_BREADCRUMBS_NEW_EDIT } from './enums/corpo-docente-enums'
 import { useCorpoDocenteForm } from './resolvers/corpo-docente-resolver'
+import type { IEnumItem } from '~/services/enums-service'
 
 // Props
 const props = defineProps<{
@@ -31,6 +32,16 @@ const {
   servidorIdErro,
   disciplina,
   disciplinaErro,
+  turno,
+  turnoErro,
+  cargaHorariaSemanal,
+  cargaHorariaErro,
+  tipoContrato,
+  tipoContratoErro,
+  observacoes,
+  observacoesErro,
+  situacao,
+  situacaoErro,
   values,
 } = useCorpoDocenteForm()
 
@@ -48,6 +59,10 @@ interface Disciplina {
 
 const servidores = ref<Servidor[]>([])
 const disciplinas = ref<Disciplina[]>([])
+const turnos = ref<IEnumItem[]>([])
+const tiposContrato = ref<IEnumItem[]>([])
+const situacoes = ref<IEnumItem[]>([])
+const cargasHorarias = ref<string[]>(['20h', '40h', '30h', '10h', '60h'])
 
 async function fetchServidores() {
   try {
@@ -75,14 +90,65 @@ onMounted(async () => {
   await fetchServidores();
   await fetchDisciplinas();
   
+  // Carregar enums da API
+  try {
+    tiposContrato.value = await EnumsService.getTipoContrato();
+  } catch (error) {
+    console.error('Erro ao carregar tipos de contrato:', error);
+    tiposContrato.value = [
+      { value: 0, name: 'Efetivo', description: 'Efetivo' },
+      { value: 1, name: 'Temporário', description: 'Temporário' },
+      { value: 2, name: 'Estagiário', description: 'Estagiário' },
+      { value: 3, name: 'Voluntário', description: 'Voluntário' },
+    ];
+  }
+
+  // Turnos e situações sempre valores padrão
+  turnos.value = [
+    { value: 1, name: 'Matutino', description: 'Matutino' },
+    { value: 2, name: 'Vespertino', description: 'Vespertino' },
+    { value: 3, name: 'Noturno', description: 'Noturno' },
+    { value: 4, name: 'Integral', description: 'Integral' },
+  ];
+
+  situacoes.value = [
+    { value: 1, name: 'Ativo', description: 'Ativo' },
+    { value: 2, name: 'Inativo', description: 'Inativo' },
+    { value: 3, name: 'Suspenso', description: 'Suspenso' },
+  ];
+  
   // Se for edição, carregar dados
   if (isEdit && id) {
     try {
       const corpoDocente = await CorpoDocenteService.findOneById(id);
+      
+      // Mapear strings de volta para números para o formulário
+      const turnoReverseMap: { [key: string]: number } = {
+        'Matutino': 1,
+        'Vespertino': 2,
+        'Noturno': 3,
+        'Integral': 4
+      };
+
+      const situacaoReverseMap: { [key: string]: number } = {
+        'Ativo': 1,
+        'Inativo': 2,
+        'Suspenso': 3
+      };
+
       setValues({
-        servidorId: corpoDocente.servidor.id.toString(),
-        disciplina: corpoDocente.disciplina.id.toString(),
+        servidorId: corpoDocente.servidor.id,
+        disciplina: corpoDocente.disciplina.id,
+        turno: turnoReverseMap[corpoDocente.turno] || 1,
+        cargaHorariaSemanal: corpoDocente.cargaHorariaSemanal || '',
+        tipoContrato: corpoDocente.tipoContrato || 0,
+        observacoes: corpoDocente.observacoes || '',
+        situacao: situacaoReverseMap[corpoDocente.situacao] || 1,
       });
+      
+      console.log('Valores carregados para edição:');
+      console.log('Servidor ID:', corpoDocente.servidor.id, 'Nome:', corpoDocente.servidor.nome);
+      console.log('Disciplina ID:', corpoDocente.disciplina.id, 'Nome:', corpoDocente.disciplina.nome);
     } catch (error) {
       console.error('Erro ao carregar dados do corpo docente:', error);
       showError('Erro ao carregar dados do corpo docente.');
@@ -92,9 +158,28 @@ onMounted(async () => {
 
 const onSubmit = handleSubmit(async (values) => {
   try {
+    // Mapear valores para strings conforme API
+    const turnoMap: { [key: number]: string } = {
+      1: 'Matutino',
+      2: 'Vespertino',
+      3: 'Noturno',
+      4: 'Integral'
+    };
+
+    const situacaoMap: { [key: number]: string } = {
+      1: 'Ativo',
+      2: 'Inativo',
+      3: 'Suspenso'
+    };
+
     const payload = {
       servidorId: Number(values.servidorId), 
-      disciplinaId: Number(values.disciplina)
+      disciplinaId: Number(values.disciplina),
+      turno: turnoMap[Number(values.turno)] || 'Matutino',
+      cargaHorariaSemanal: values.cargaHorariaSemanal,
+      tipoContrato: Number(values.tipoContrato),
+      observacoes: values.observacoes,
+      situacao: situacaoMap[Number(values.situacao)] || 'Ativo',
     };
     
     if (isEdit) {
@@ -110,8 +195,6 @@ const onSubmit = handleSubmit(async (values) => {
     console.error('Erro detalhado:', error)
   }
 })
-
-console.log(values)
 
 </script>
 
@@ -149,6 +232,62 @@ console.log(values)
                 :error-messages="disciplinaErro"
                 label="Disciplina"
                 variant="outlined"
+              />
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="turno"
+                :items="turnos"
+                item-title="name"        
+                item-value="value"
+                :error-messages="turnoErro"
+                label="Turno"
+                variant="outlined"
+              />
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="cargaHorariaSemanal"
+                :items="cargasHorarias"
+                :error-messages="cargaHorariaErro"
+                label="Carga Horária Semanal"
+                variant="outlined"
+              />
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="tipoContrato"
+                :items="tiposContrato"
+                item-title="name"        
+                item-value="value"
+                :error-messages="tipoContratoErro"
+                label="Tipo de Contrato"
+                variant="outlined"
+              />
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-select
+                v-model="situacao"
+                :items="situacoes"
+                item-title="name"        
+                item-value="value"
+                :error-messages="situacaoErro"
+                label="Situação"
+                variant="outlined"
+              />
+            </v-col>
+
+            <v-col cols="12">
+              <v-textarea
+                v-model="observacoes"
+                :error-messages="observacoesErro"
+                label="Observações"
+                variant="outlined"
+                rows="3"
               />
             </v-col>
 
