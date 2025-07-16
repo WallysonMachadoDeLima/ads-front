@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Instala dependências
-RUN npm ci
+RUN npm install
 
 # Copia o restante do código e gera o build
 COPY . .
