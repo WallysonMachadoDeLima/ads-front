@@ -3,7 +3,10 @@ export interface ICreateUpdateServidorDto {
   cpf: string;
   email: string;
   senha?: string;
-  tipo: number; // Mudando para number
+  tipo: number;
+  dataNascimento: string; // formato YYYY-MM-DD
+  sexo: number; // enum de sexo
+  situacao: number; // enum de situação
   idServidor?: number;
 }
 
@@ -12,5 +15,8 @@ export interface IServidorDto {
   nome: string;
   cpf: string;
   email: string;
-  tipo: number; // Mudando para number
+  tipo: number;
+  dataNascimento: string;
+  sexo: string; // API retorna string
+  situacao: string; // API retorna string
 }

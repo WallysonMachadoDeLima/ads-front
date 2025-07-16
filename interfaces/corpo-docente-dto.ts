@@ -1,6 +1,11 @@
 export interface ICorpoDocenteNewEditDto {
     servidorId: number;
     disciplinaId: number;
+    turno: string; // string para API
+    cargaHorariaSemanal: string; // ex: "20h", "40h"
+    tipoContrato: number; // enum de tipo contrato
+    observacoes: string;
+    situacao: string; // string para API
 }
 
 export interface ICorpoDocenteFindAllDto {
@@ -23,6 +28,11 @@ export interface ICorpoDocenteFindAllDto {
         senha: string;
         tipo: number;
     };
+    turno: string; // API retorna string
+    cargaHorariaSemanal: string;
+    tipoContrato: number;
+    observacoes: string;
+    situacao: string; // API retorna string
 }
 
 export interface ICorpoDocenteFindOneByIdDto {
@@ -45,4 +55,9 @@ export interface ICorpoDocenteFindOneByIdDto {
         senha: string;
         tipo: number;
     };
+    turno: string; // API retorna string
+    cargaHorariaSemanal: string;
+    tipoContrato: number;
+    observacoes: string;
+    situacao: string; // API retorna string
 }
