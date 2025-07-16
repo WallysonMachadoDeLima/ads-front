@@ -8,9 +8,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # mapeia a porta 3000 do container para 3000 na máquina host
+    # mapeia a porta 3001 do container para 3001 na máquina host
     ports:
-      - '3000:3000'
+      - '3001:3001'
     # Caso queira logar variáveis ou montar código em dev, descomente:
     # volumes:
     #   - ./:/app
